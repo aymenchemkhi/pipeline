@@ -4,27 +4,27 @@ pipeline {
     
 
     stages {
-        stage(Preparation) {
+        stage('Preparation') {
             steps {
                 checkout scm
                 sh "git rev-parse --short HEAD > .git/commit-id"
                 script {                        
-                    commit_id = readFile(.git/commit-id).trim()
+                    commit_id = readFile('.git/commit-id').trim()
                 }
             }
         }
-        stage(Docker image Build) {
+        stage('Docker image Build') {
             steps {
-                echo Building....
+                echo 'Building....'
                 sh "sudo docker build -t app-nodejs:${commit_id} ."
-                echo build complete
+                echo 'build complete'
             }
         }
-        stage(Deploy) {
+        stage('Deploy') {
             steps {
-                echo Deploying
+                echo'Deploying'
                 sh "sudo docker run -d -p 8081:8080 app-nodejs:${commit_id}"
-                echo deployment complete
+                echo 'deployment complete'
                 
             }
         }
