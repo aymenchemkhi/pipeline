@@ -16,14 +16,14 @@ pipeline {
         stage('Docker image Build') {
             steps {
                 echo 'Building....'
-                sh "sudo docker build -t app-nodejs:${commit_id} ."
+                sh "docker build -t app-nodejs:${commit_id} ."
                 echo 'build complete'
             }
         }
         stage('Deploy') {
             steps {
                 echo'Deploying'
-                sh "sudo docker run -d -p 8081:8080 app-nodejs:${commit_id}"
+                sh "docker run -d -p 8081:8080 app-nodejs:${commit_id}"
                 echo 'deployment complete'
                 
             }
